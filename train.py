@@ -16,7 +16,7 @@ from __future__ import print_function, division
 
 import torch
 import torch.nn as nn
-import torch.nn.function as F
+import torch.nn.functional as F
 import torch.optim as optim
 from torch.autograd import Variable
 
@@ -29,5 +29,5 @@ import os
 # get data
 import data_loader
 rsn = True
-data_arr = load_data(('dis_data.txt','rpm_data.txt'),rsn)
+data_arr = data_loader.load_data('dis_data.txt','rpm_data.txt')
 print(np.shape(data_arr))

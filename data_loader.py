@@ -8,7 +8,7 @@
 '''
 
 import numpy as np
-def load_data(*data_file, rsn=False):
+def load_data(*data_file):
 	'''
 	data_file is a tuple with 1 or 2 elements;
 	first is vibration matrix,
@@ -21,10 +21,11 @@ def load_data(*data_file, rsn=False):
 	Using Rotating Speed Normalized Vibration".
 	'''
 	data_arr = np.loadtxt(data_file[0])
-	if rns:
+	if len(data_file)>1:
+		print('rsn used (see the paper).')
 		rpm_arr = np.loadtxt(data_file[1])
 		mean_rpm = np.mean(rpm_arr)
-		data_arr = np.power(mean_rpm,2)*data_arr / np.power(data_arr,2)
+		data_arr = np.power(mean_rpm,2)*data_arr / (rpm_arr*rpm_arr)
 	return data_arr
 	
 def load_label(label_file):
