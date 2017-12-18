@@ -19,6 +19,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
 from torch.autograd import Variable
+import torch.utils.data as data_utils
 
 import numpy as np
 
@@ -29,13 +30,21 @@ import os
 # get data
 import data_loader
 
-rsn = True
 data_arr = data_loader.load_data('dis_data.txt','rpm_data.txt')
 label_vec = data_loader.load_label('label_vec.txt')
 print('data size: ', np.shape(data_arr))
 print('label size: ', np.shape(label_vec))
 
-dataset = data_loader.arr_to_dataset(data_arr,label_vec)
-print(dataset)
+dataset_f30 = data_loader.arr_to_dataset(data_arr,label_vec)
+loader = data_utils.DataLoader(
+    dataset = dataset_f30,
+    batch_size = 200,
+    shuffle = True,
+    num_workers = 2,
+)
+
+
+
+
 
 
