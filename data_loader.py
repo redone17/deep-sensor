@@ -12,10 +12,10 @@ import torch
 import torch.utils.data as data_utils
 
 def load_data(*data_file):
-	'''
-	data_file is a tuple with 1 or 2 elements;
-	first is vibration matrix,
-	second can be rotating speed matrix.
+    '''
+    data_file is a tuple with 1 or 2 elements;
+    first is vibration matrix,
+    second can be rotating speed matrix.
 	
 	rsn is a preprocessing for signal, 
 	it requires rotating speed matrix.
