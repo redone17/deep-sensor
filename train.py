@@ -28,6 +28,14 @@ import os
 
 # get data
 import data_loader
+
 rsn = True
 data_arr = data_loader.load_data('dis_data.txt','rpm_data.txt')
-print(np.shape(data_arr))
+label_vec = data_loader.load_label('label_vec.txt')
+print('data size: ', np.shape(data_arr))
+print('label size: ', np.shape(label_vec))
+
+dataset = data_loader.arr_to_dataset(data_arr,label_vec)
+print(dataset)
+
+
