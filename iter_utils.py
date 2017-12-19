@@ -16,20 +16,42 @@ def learning_scheduler(optimizer, epoch, lr=0.001, lr_decay_epoch=10):
 def train(model, train_loader, criterion, optimizer, init_lr=0.001, decay_epoch, n_epoch=20, batch_size=200):
     since = time.time()
     best_model = model
-    best_acc = 0.0
+    best_accuracy = 0.0
     loss_curve = []
 
     for epoch in range(n_epoch):
         print('Epoch {}/{}'.format(epoch+1, n_epoch))
+        
         for phase in ['train', 'val']:
             if phase == 'train':
                 optimizer = learning_scheduler(optimizer, epoch, lr=init_lr, lr_decay_epoch=decay_epoch)
                 model.train(True)
             else:
                 model.train(False)  
+            
+            running_loss = 0.0
+            running_corrects = 0 
+            for batch_idx, (inputs, targets) in enumerate(train_loader):
+                if use_cuda:
+                    inputs, target = inputs.cuda(), targets.cuda()
+                optimizer.zero_grad()
+                inputs, targets = Variable(inputs), Variable(targets)
+                outputs = model(inputs)
+                loss = criterion(outputs, targets)
+                if phase == 'train':
+                    loss.backward()
+                    optimizer.step()
+                running_loss += loss.data[0]
+                _, predicted = torch.max(outputs.data, 1)
+                running_corrects += torch.sum(predicted==targets.data)
+                loss_curve.append(loss.data[0])
 
-        for batch_idx, (inputs, targets) in enumerate(train_loader):
-            if cuda.is_available():
-                model.cuda()
+            epoch_loss = running_loss / len(train_loader)
+            epoch_accuracy = running_corrects / len(train_loader)
+            print('{} loss: {:.4f}, accuracy: {:.4f}'.format(phase, epoch_loss, epoch_accuracy))
+
+            if phase == 'val' and epoch_accuracy>best_accuracy:
+                best_accuracy = epoch_accuracy
+                best_model = copy.deepcopy(model)
 
 
