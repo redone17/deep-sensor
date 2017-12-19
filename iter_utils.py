@@ -13,7 +13,7 @@ def learning_scheduler(optimizer, epoch, lr=0.001, lr_decay_epoch=10):
         param_group['lr'] = lr
     return optimizer
 
-def train(model, train_loader, criterion, optimizer, init_lr=0.001, decay_epoch, n_epoch=20, batch_size=200):
+def train(model, train_loader, criterion, optimizer, init_lr=0.001, decay_epoch=10, n_epoch=20, batch_size=200):
     since = time.time()
     best_model = model
     best_accuracy = 0.0
@@ -53,5 +53,21 @@ def train(model, train_loader, criterion, optimizer, init_lr=0.001, decay_epoch,
             if phase == 'val' and epoch_accuracy>best_accuracy:
                 best_accuracy = epoch_accuracy
                 best_model = copy.deepcopy(model)
+        print(' ')
+    
+    time_elapsed = time.time() - since
+    print('Training complete in {:.0f}m {:.0f}s'.format(time_elapsed//60, time_elapsed%60))
+    print('Best validation accuracy: {:.4f}'.format(best_accuracy))
+    return best_model, loss_curve
 
+def test(model, test_loader):
+    corrects = 0
+    model = model.cpu()
+    for batch_idx, (inputs, targets) in enumerate(test_loader):
+        inputs, targets = Variable(inputs, volatile=True), Variable(targets)
+        outputs = model(inputs)
+        _, predicted = torch.max(outputs, 1)
+        corrects += torch.sum(predicted==targets.data)
+    accuracy = corrects / len(test_loader)
+    return accuracy
 
