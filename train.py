@@ -19,7 +19,6 @@ import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
 from torch.autograd import Variable
-import torch.utils.data as data_utils
 
 import numpy as np
 
@@ -27,24 +26,30 @@ import time
 import copy
 import os
 
-# get data
 import data_loader
+import iter_utils
+import torch.utils.data as data_utils
+# load data
 
 data_arr = data_loader.load_data('dis_data.txt','rpm_data.txt')
 label_vec = data_loader.load_label('label_vec.txt')
-print('data size: ', np.shape(data_arr))
-print('label size: ', np.shape(label_vec))
+train_dict, test_dict = data_loader.split_arr(data_arr, label_vec)
+trainset = data_loader.arr_to_dataset(train_dict['data'], train_dict['label'])
+testset = data_loader.arr_to_dataset(test_dict['data'], test_dict['label'])
 
-dataset_f30 = data_loader.arr_to_dataset(data_arr,label_vec)
-loader = data_utils.DataLoader(
-    dataset = dataset_f30,
+train_loader = data_utils.DataLoader(
+    dataset = trainset,
     batch_size = 200,
     shuffle = True,
     num_workers = 2,
 )
+print(len(train_loader.dataset))
 
-
-
-
-
+test_loader = data_utils.DataLoader(
+    dataset = testset,
+    batch_size = 200,
+    shuffle = True,
+    num_workers = 2,
+)
+print(len(test_loader.dataset))
 
