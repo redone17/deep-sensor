@@ -14,10 +14,12 @@ def learning_scheduler(optimizer, epoch, lr=0.001, lr_decay_epoch=10):
     return optimizer
 
 def train(model, train_loader, criterion, optimizer, init_lr=0.001, decay_epoch=10, n_epoch=20, use_cuda=True):
-    since = time.time()
+    if use_cuda:
+        model = model.cuda()
     best_model = model
     best_accuracy = 0.0
     loss_curve = []
+    since = time.time()
 
     for epoch in range(n_epoch):
         print('Epoch {}/{}'.format(epoch+1, n_epoch))
@@ -54,7 +56,7 @@ def train(model, train_loader, criterion, optimizer, init_lr=0.001, decay_epoch=
                 best_accuracy = epoch_accuracy
                 best_model = copy.deepcopy(model)
         print(' ')
-    
+
     time_elapsed = time.time() - since
     print('Training complete in {:.0f}m {:.0f}s'.format(time_elapsed//60, time_elapsed%60))
     print('Best validation accuracy: {:.4f}'.format(best_accuracy))
