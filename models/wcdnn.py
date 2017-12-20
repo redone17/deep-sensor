@@ -26,11 +26,11 @@ class BasicBlock(nn.Module):
         x = F.relu(x)
 
 class WDCNN(nn.Module):
-    def __init__(self, n_class, use_feature=False):
+    def __init__(self, in_channels, n_class, use_feature=False):
         super(WDCNN, self).__init__()
         self.conv = nn.Sequential(
-            nn.BatchNorm1d(1)
-            BasicBlock( 1, 16, 64, 16, 24)
+            nn.BatchNorm1d(in_channels)
+            BasicBlock(in_channels, 16, 64, 16, 24)
             BasicBlock(16, 32)
             BasicBlock(32, 64)
             BasicBlock(64, 64)
@@ -47,3 +47,4 @@ class WDCNN(nn.Module):
         else:
             out = (activations, None)
         return out
+
