@@ -29,8 +29,9 @@ import os
 import data_loader
 import iter_utils
 import torch.utils.data as data_utils
-# load data
+from models import wcdnn
 
+# load data
 data_arr = data_loader.load_data('dis_data.txt','rpm_data.txt')
 label_vec = data_loader.load_label('label_vec.txt')
 train_dict, test_dict = data_loader.split_arr(data_arr, label_vec)
@@ -52,4 +53,8 @@ test_loader = data_utils.DataLoader(
     num_workers = 2,
 )
 print(len(test_loader.dataset))
+
+# make models
+model = wcdnn.WDCNN(4, )
+
 
