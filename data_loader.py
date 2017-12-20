@@ -1,10 +1,11 @@
 # -*- coding:utf-8 -*-
-# python3
+# python2
 
 '''
 1. load data from txt files
 2. reshape and preprocess the data
-3. encapsule data as datasets 
+3. split train and test
+4. encapsule data as datasets 
 '''
 
 import numpy as np
@@ -67,4 +68,3 @@ def arr_to_dataset(data_arr, label_vec):
     label_ten = torch.from_numpy(label_vec).long()
     dataset = data_utils.TensorDataset(data_ten,label_ten)
     return dataset
-
