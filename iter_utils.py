@@ -10,10 +10,10 @@ def learning_scheduler(optimizer, epoch, lr=0.001, lr_decay_epoch=10):
     if epoch % lr_decay_epoch == 0:
         print('Learning rate is set to {}'.format(lr))
     for param in optimizer.param_groups:
-        param_group['lr'] = lr
+        param['lr'] = lr
     return optimizer
 
-def train(model, train_loader, criterion, optimizer, init_lr=0.001, decay_epoch=10, n_epoch=20):
+def train(model, train_loader, criterion, optimizer, init_lr=0.001, decay_epoch=10, n_epoch=20, use_cuda=True):
     since = time.time()
     best_model = model
     best_accuracy = 0.0

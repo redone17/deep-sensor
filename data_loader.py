@@ -32,7 +32,7 @@ def load_data(*data_file):
         rpm_arr = np.loadtxt(data_file[1],skiprows=40000)
         mean_rpm = np.mean(rpm_arr)
         data_arr = np.power(mean_rpm,2)*data_arr / (rpm_arr*rpm_arr)
-    return data_arr
+    return np.expand_dims(data_arr, axis=1)
 
 def load_label(label_file):
     '''
@@ -66,5 +66,6 @@ def arr_to_dataset(data_arr, label_vec):
     '''
     data_ten = torch.from_numpy(data_arr).float()
     label_ten = torch.from_numpy(label_vec).long()
-    dataset = data_utils.TensorDataset(data_ten,label_ten)
+    dataset = data_utils.TensorDataset(data_ten, label_ten)
     return dataset
+

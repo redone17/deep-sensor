@@ -15,9 +15,7 @@ mian .py for conv-rotor project
 from __future__ import print_function, division 
 
 import torch
-import torch.nn as nn
 import torch.nn.functional as F
-import torch.optim as optim
 from torch.autograd import Variable
 
 import numpy as np
@@ -25,11 +23,14 @@ import numpy as np
 import time
 import copy
 import os
+#---
+import torch.optim as optim
+import torch.nn as nn
 
 import data_loader
 import iter_utils
 import torch.utils.data as data_utils
-from models import wcdnn
+from models import *
 
 # load data
 data_arr = data_loader.load_data('dis_data.txt','rpm_data.txt')
@@ -55,6 +56,11 @@ test_loader = data_utils.DataLoader(
 print(len(test_loader.dataset))
 
 # make models
-model = wcdnn.WDCNN(4, )
+model = wdcnn.Net(1, 4)
 
+# train
+criterion = nn.CrossEntropyLoss()
+optimizer = optim.Adam(model.parameters(), weight_decay=0.0001 )
+best_model, loss_curve = iter_utils.train(model, train_loader, criterion, optimizer,
+    init_lr=0.001, decay_epoch=10, n_epoch=20)
 
