@@ -1,5 +1,6 @@
 import time
 import copy
+import torch
 import torch.utils.data as data_utils
 import torch.optim as optim
 from torch.autograd import Variable
@@ -35,7 +36,7 @@ def train(model, train_loader, criterion, optimizer, init_lr=0.001, decay_epoch=
             running_corrects = 0 
             for batch_idx, (inputs, targets) in enumerate(train_loader):
                 if use_cuda:
-                    inputs, target = inputs.cuda(), targets.cuda()
+                    inputs, targets = inputs.cuda(), targets.cuda()
                 optimizer.zero_grad()
                 inputs, targets = Variable(inputs), Variable(targets)
                 outputs = model(inputs)
@@ -48,8 +49,8 @@ def train(model, train_loader, criterion, optimizer, init_lr=0.001, decay_epoch=
                 running_corrects += torch.sum(predicted==targets.data)
                 loss_curve.append(loss.data[0])
 
-            epoch_loss = running_loss / len(train_loader)
-            epoch_accuracy = running_corrects / len(train_loader)
+            epoch_loss = running_loss / len(train_loader.dataset)
+            epoch_accuracy = running_corrects / len(train_loader.dataset)
             print('{} loss: {:.4f}, accuracy: {:.4f}'.format(phase, epoch_loss, epoch_accuracy))
 
             if phase == 'val' and epoch_accuracy>best_accuracy:
@@ -70,6 +71,6 @@ def test(model, test_loader):
         outputs = model(inputs)
         _, predicted = torch.max(outputs, 1)
         corrects += torch.sum(predicted==targets.data)
-    accuracy = corrects / len(test_loader)
+    accuracy = corrects / len(test_loader.dataset)
     return accuracy
 
