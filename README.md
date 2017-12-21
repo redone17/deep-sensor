@@ -1,6 +1,7 @@
 # conv-rotor
 
 A deep learning framework for fault diagnositc with [PyTorch](http://pytorch.org/).
+
 [![](https://img.shields.io/badge/build-passing-brightgreen.svg)](https://github.com/redone17/conv-rotor) [![](https://img.shields.io/badge/python-2.7.13-blue.svg)](https://www.python.org/)  [![](https://img.shields.io/badge/license-BSD3-ff69b4.svg)](https://github.com/redone17/conv-rotor/blob/master/LICENSE)
 
 ## requirements: 
