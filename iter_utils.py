@@ -1,3 +1,4 @@
+from __future__ import division
 import time
 import copy
 import torch
@@ -69,7 +70,7 @@ def test(model, test_loader):
     for batch_idx, (inputs, targets) in enumerate(test_loader):
         inputs, targets = Variable(inputs, volatile=True), Variable(targets)
         outputs = model(inputs)
-        _, predicted = torch.max(outputs, 1)
+        _, predicted = torch.max(outputs.data, 1)
         corrects += torch.sum(predicted==targets.data)
     accuracy = corrects / len(test_loader.dataset)
     return accuracy

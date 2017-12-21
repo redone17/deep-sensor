@@ -13,27 +13,15 @@ mian .py for conv-rotor project
 
 # initialize
 from __future__ import print_function, division 
-
-import torch
-import torch.nn.functional as F
-from torch.autograd import Variable
-
-import numpy as np
-
-import time
-import copy
-import os
-#---
 import torch.optim as optim
 import torch.nn as nn
-
 import data_loader
 import iter_utils
 import torch.utils.data as data_utils
 from models import *
 
 # load data
-data_arr = data_loader.load_data('dis_data.txt','rpm_data.txt')
+data_arr = data_loader.load_data('dis_data.txt')
 label_vec = data_loader.load_label('label_vec.txt')
 train_dict, test_dict = data_loader.split_arr(data_arr, label_vec)
 trainset = data_loader.arr_to_dataset(train_dict['data'], train_dict['label'])
@@ -45,7 +33,7 @@ train_loader = data_utils.DataLoader(
     shuffle = True,
     num_workers = 2,
 )
-print(len(train_loader.dataset))
+print('Number of training samples: {}'.format(len(train_loader.dataset)))
 
 test_loader = data_utils.DataLoader(
     dataset = testset,
@@ -53,7 +41,7 @@ test_loader = data_utils.DataLoader(
     shuffle = True,
     num_workers = 2,
 )
-print(len(test_loader.dataset))
+print('Number of testing samples: {}'.format(len(test_loader.dataset)))
 
 # make models
 model = wdcnn.Net(1, 4)
@@ -62,5 +50,13 @@ model = wdcnn.Net(1, 4)
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.Adam(model.parameters(), weight_decay=0.0001 )
 best_model, loss_curve = iter_utils.train(model, train_loader, criterion, optimizer,
-    init_lr=0.001, decay_epoch=10, n_epoch=20)
+    init_lr=0.001, decay_epoch=10, n_epoch=2)
+
+# test
+test_accuracy = iter_utils.test(best_model, test_loader)
+print('Test accuracy: {:.4f}%'.format(100*test_accuracy))
+
+# visualization
+# TODO
+
 
