@@ -1,11 +1,11 @@
 '''
-WDCNN model with pytorch
+Ince's model with pytorch
 
 Reference:
-Wei Zhang, Gaoliang Peng, Chuanhao Li, Yuanhang Chen and Zhujun Zhang
-A New Deep Learning Model for Fault Diagnosis with Good Anti-Noise and Domain Adaptation Ability on Raw Vibration Signals
-Sensors, MDPI
-doi:10.3390/s17020425
+Turker Ince, Serkan Kiranyaz, Levent Eren, Murat Askar, and Moncef Gabbouj
+Real-Time Motor Fault Detection by 1-D Convolutional Neural Networks
+IEEE Transactions on Industrial Electronics
+doi:10.1109/TIE.2016.258272
 '''
 import torch
 import torch.nn as nn
@@ -55,8 +55,10 @@ class Net(nn.Module):
             out = activations
         return out
 
+'''
 net = Net(1, 4)
 x = torch.randn(10,1,240)
 y = net(Variable(x))
 print(y.size())
+'''
 
