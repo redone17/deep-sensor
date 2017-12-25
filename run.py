@@ -22,6 +22,7 @@ from models import *
 
 # load data
 data_arr = data_loader.load_data('dis_data.txt')
+# data_arr = data_arr[:,:,:240] # add for Ince's model
 label_vec = data_loader.load_label('label_vec.txt')
 train_dict, test_dict = data_loader.split_arr(data_arr, label_vec)
 trainset = data_loader.arr_to_dataset(train_dict['data'], train_dict['label'])
