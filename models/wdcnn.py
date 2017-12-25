@@ -29,6 +29,7 @@ class BasicBlock(nn.Module):
 class Net(nn.Module):
     def __init__(self, in_channels, n_class, use_feature=False):
         super(Net, self).__init__()
+        self.name = 'WDCNN'
         self.use_feature = use_feature
         self.b0 = nn.BatchNorm1d(in_channels)
         self.b1 = BasicBlock(in_channels, 16, kernel_size=64, stride=16, padding=24)

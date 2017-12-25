@@ -60,7 +60,7 @@ def train(model, train_loader, criterion, optimizer, init_lr=0.001, decay_epoch=
         print(' ')
 
     time_elapsed = time.time() - since
-    print('Training complete in {:.0f}m {:.0f}s'.format(time_elapsed//60, time_elapsed%60))
+    print('{} trained in {:.0f}m {:.0f}s'.format(best_model.name, time_elapsed//60, time_elapsed%60))
     print('Best validation accuracy: {:.4f}'.format(best_accuracy))
     return best_model, loss_curve
 
