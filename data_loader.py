@@ -73,11 +73,11 @@ def fft_arr(arr):
     '''
     Fourier transform for signals in a Numpy array
     '''
-    n, l = arr.shape
-    amp = np.zeros((n,l/2))
-    ang = np.zeros((n,l/2))
+    (n, _, l) = arr.shape
+    amp = np.zeros((n,1,l/2))
+    ang = np.zeros((n,1,l/2))
     for idx in range(n):
-        ft = np.fft.fft(arr[idx])[:l/2]
+        ft = np.fft.fft(arr[idx,:,:])[:,:l/2]
         amp[idx] = np.absolute(ft)
         ang[idx] = np.angle(ft)
     return amp, ang
