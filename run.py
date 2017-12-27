@@ -23,9 +23,9 @@ from models import *
 # load data
 data_arr = data_loader.load_data('dis_data.txt')
 # data_arr = data_arr[:,:,:240] # add for Ince's model
-amp, ang = data_loader.fft_arr(data_arr)
+# amp, ang = data_loader.fft_arr(data_arr) # add for fft wdcnn
 label_vec = data_loader.load_label('label_vec.txt')
-train_dict, test_dict = data_loader.split_arr(ang, label_vec)
+train_dict, test_dict = data_loader.split_arr(data_arr, label_vec)
 trainset = data_loader.arr_to_dataset(train_dict['data'], train_dict['label'])
 testset = data_loader.arr_to_dataset(test_dict['data'], test_dict['label'])
 
@@ -46,7 +46,7 @@ test_loader = data_utils.DataLoader(
 print('Number of testing samples: {}'.format(len(test_loader.dataset)))
 
 # make models
-model = fft_wdcnn.Net(1, 4)
+model = wdcnn.Net(1, 4)
 
 # train
 criterion = nn.CrossEntropyLoss()
