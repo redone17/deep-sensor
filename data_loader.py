@@ -11,6 +11,7 @@
 import numpy as np
 import torch
 import torch.utils.data as data_utils
+import scipy.signal as sig
 
 def load_data(*data_file):
     '''
@@ -81,4 +82,21 @@ def fft_arr(arr):
         amp[idx] = np.absolute(ft)
         ang[idx] = np.angle(ft)
     return amp, ang
+
+def stft_arr(arr, output_size=(32,32)):
+    '''
+    Short Time Fourier Transform for signals in a Numpy array
+    '''
+    (n, _, l) = arr.shape
+    spectrogram = np.zeros((n, 1, output_size[0], output_size[1]))
+    for idx in range(n):
+        f, t, S = sig.spectrogram(arr[idx,0,:], fs=10240, window=sig.hann(64), noverlap=0)
+        spectrogram[idx, 0] = np.absolute(S[:(output_size[0]), :(output_size[1])])
+    return spectrogram
+
+'''
+arr = np.random.rand(10, 1, 2048)
+spec = stft_arr(arr)
+print(spec.shape)
+'''
 
