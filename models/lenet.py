@@ -47,10 +47,10 @@ class Net(nn.Module):
             out = activations
         return out
 
-
+'''
 net = Net(1, 4)
 x = torch.randn(10,1,32,32)
 y = net(Variable(x))
 print(y.data.size())
-
+'''
 

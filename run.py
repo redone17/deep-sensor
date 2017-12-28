@@ -24,8 +24,9 @@ from models import *
 data_arr = data_loader.load_data('dis_data.txt')
 # data_arr = data_arr[:,:,:240] # add for Ince's model
 # amp, ang = data_loader.fft_arr(data_arr) # add for fft wdcnn
+spectrogram = data_loader.stft_arr(data_arr) # add for stft-LeNet
 label_vec = data_loader.load_label('label_vec.txt')
-train_dict, test_dict = data_loader.split_arr(data_arr, label_vec)
+train_dict, test_dict = data_loader.split_arr(spectrogram, label_vec)
 trainset = data_loader.arr_to_dataset(train_dict['data'], train_dict['label'])
 testset = data_loader.arr_to_dataset(test_dict['data'], test_dict['label'])
 
@@ -46,7 +47,7 @@ test_loader = data_utils.DataLoader(
 print('Number of testing samples: {}'.format(len(test_loader.dataset)))
 
 # make models
-model = wdcnn.Net(1, 4)
+model = lenet.Net(1, 4)
 
 # train
 criterion = nn.CrossEntropyLoss()
@@ -60,5 +61,4 @@ print('Test accuracy: {:.4f}%'.format(100*test_accuracy))
 
 # visualization
 # TODO
-
 
