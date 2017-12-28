@@ -24,9 +24,9 @@ from models import *
 data_arr = data_loader.load_data('dis_data.txt')
 # data_arr = data_arr[:,:,:240] # add for Ince's model
 # amp, ang = data_loader.fft_arr(data_arr) # add for fft wdcnn
-spectrogram = data_loader.stft_arr(data_arr) # add for stft-LeNet
+# spectrogram = data_loader.stft_arr(data_arr) # add for stft-LeNet
 label_vec = data_loader.load_label('label_vec.txt')
-train_dict, test_dict = data_loader.split_arr(spectrogram, label_vec)
+train_dict, test_dict = data_loader.split_arr(data_arr, label_vec)
 trainset = data_loader.arr_to_dataset(train_dict['data'], train_dict['label'])
 testset = data_loader.arr_to_dataset(test_dict['data'], test_dict['label'])
 
@@ -45,15 +45,16 @@ test_loader = data_utils.DataLoader(
     num_workers = 2,
 )
 print('Number of testing samples: {}'.format(len(test_loader.dataset)))
+print( )
 
 # make models
-model = lenet.Net(1, 4)
+model = wdcnn.Net(1, 4)
 
 # train
 criterion = nn.CrossEntropyLoss()
-optimizer = optim.Adam(model.parameters(), weight_decay=0.0001 )
+optimizer = optim.Adam(model.parameters(), weight_decay=0.001 )
 best_model, loss_curve = iter_utils.train(model, train_loader, criterion, optimizer,
-    init_lr=0.001, decay_epoch=10, n_epoch=2)
+    init_lr=0.01, decay_epoch=5, n_epoch=3)
 
 # test
 test_accuracy = iter_utils.test(best_model, test_loader)

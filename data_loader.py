@@ -8,6 +8,7 @@
 4. encapsule data as datasets 
 '''
 
+import time
 import numpy as np
 import torch
 import torch.utils.data as data_utils
@@ -28,12 +29,15 @@ def load_data(*data_file):
     see paper "Convolutional Neural Networks for Fault Diagnosis
     Using Rotating Speed Normalized Vibration".
     '''
+    since = time.time()
     data_arr = np.loadtxt(data_file[0])
     if len(data_file)>1:
         print('rsn used (see the paper).')
         rpm_arr = np.loadtxt(data_file[1])
         mean_rpm = np.mean(rpm_arr)
         data_arr = np.power(mean_rpm,2)*data_arr / (rpm_arr*rpm_arr)
+    time_elapsed = time.time() - since
+    print('Data in file {} loaded in {:.0f}m {:.0f}s'.format(data_file, time_elapsed//60, time_elapsed%60))
     return np.expand_dims(data_arr, axis=1)
 
 def load_label(label_file):
