@@ -31,7 +31,9 @@ class Net(nn.Module):
         self.n_features = 16*5*5
         self.fc = nn.Sequential(
                       nn.Linear(self.n_features, 120),
+                      nn.ReLU(),
                       nn.Linear(120, 84),
+                      nn.ReLU(),
                       nn.Linear( 84, n_class)
                   )
 
