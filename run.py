@@ -11,7 +11,7 @@ mian .py for conv-rotor project
 5. visualize;
 '''
 
-# initialize
+## initialize
 from __future__ import print_function, division 
 import torch.optim as optim
 import torch.nn as nn
@@ -20,7 +20,7 @@ import iter_utils
 import torch.utils.data as data_utils
 from models import *
 
-# load data
+## load data
 data_arr = data_loader.load_data('dis_data.txt')
 # data_arr = data_arr[:,:,:240] # add for Ince's model
 # amp, ang = data_loader.fft_arr(data_arr) # add for fft wdcnn
@@ -30,27 +30,16 @@ train_dict, test_dict = data_loader.split_arr(data_arr, label_vec)
 trainset = data_loader.arr_to_dataset(train_dict['data'], train_dict['label'])
 testset = data_loader.arr_to_dataset(test_dict['data'], test_dict['label'])
 
-train_loader = data_utils.DataLoader(
-    dataset = trainset,
-    batch_size = 200,
-    shuffle = True,
-    num_workers = 2,
-)
+train_loader = data_utils.DataLoader(dataset = trainset, batch_size = 200, shuffle = True, num_workers = 2)
+test_loader = data_utils.DataLoader(dataset = testset, batch_size = 200, shuffle = True, num_workers = 2)
 print('Number of training samples: {}'.format(len(train_loader.dataset)))
-
-test_loader = data_utils.DataLoader(
-    dataset = testset,
-    batch_size = 200,
-    shuffle = True,
-    num_workers = 2,
-)
 print('Number of testing samples: {}'.format(len(test_loader.dataset)))
 print( )
 
-# make models
+## make models
 model = wdcnn.Net(1, 4)
 
-# train
+## train
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.Adam(model.parameters(), weight_decay=0.001 )
 best_model, loss_curve = iter_utils.train(model, train_loader, criterion, optimizer,
@@ -60,6 +49,5 @@ best_model, loss_curve = iter_utils.train(model, train_loader, criterion, optimi
 test_accuracy = iter_utils.test(best_model, test_loader)
 print('Test accuracy: {:.4f}%'.format(100*test_accuracy))
 
-# visualization
+## visualization
 # TODO
-
