@@ -22,6 +22,8 @@ from models import *
 
 ## load data
 data_arr_01 = data_loader.load_data('fluc03/vib_data.txt')
+# TODO
+# try PGB data
 # data_arr_03 = data_loader.load_data('fluc03/vib_data.txt')
 # data_arr = data_arr[:,:,:240] # add for Ince's model
 # amp, ang = data_loader.fft_arr(data_arr) # add for fft wdcnn
