@@ -25,10 +25,11 @@ data_arr_01 = data_loader.load_data('data/pgb/SF01/vib_data_1.txt')
 data_arr_03 = data_loader.load_data('data/pgb/SF03/vib_data_1.txt')
 # data_arr = data_arr[:,:,:240] # add for Ince's model
 # amp, ang = data_loader.fft_arr(data_arr) # add for fft wdcnn
-# spectrogram = data_loader.stft_arr(data_arr_01) # add for stft-LeNet
+specgram_01 = data_loader.stft_arr(data_arr_01) # add for stft-LeNet
+specgram_03 = data_loader.stft_arr(data_arr_03)
 label_vec = data_loader.load_label('data/pgb/SF01/label_vec.txt')
-train_dict_01, test_dict_01 = data_loader.split_arr(data_arr_01, label_vec)
-train_dict_03, test_dict_03 = data_loader.split_arr(data_arr_03, label_vec)
+train_dict_01, test_dict_01 = data_loader.split_arr(specgram_01, label_vec)
+train_dict_03, test_dict_03 = data_loader.split_arr(specgram_03, label_vec)
 trainset_01 = data_loader.arr_to_dataset(train_dict_01['data'], train_dict_01['label'])
 testset_01 = data_loader.arr_to_dataset(test_dict_01['data'], test_dict_01['label'])
 trainset_03 = data_loader.arr_to_dataset(train_dict_03['data'], train_dict_03['label'])
@@ -41,13 +42,13 @@ print('Number of testing samples: {}'.format(len(test_loader.dataset)))
 print( )
 
 ## make models
-model = wdcnn.Net(1, 4)
+model = lenet.Net(1, 4)
 
 ## train
 criterion = nn.CrossEntropyLoss()
-optimizer = optim.Adam(model.parameters(), weight_decay=0.0001)
+optimizer = optim.Adam(model.parameters(), weight_decay=0.001)
 best_model, loss_curve = iter_utils.train(model, train_loader, criterion, optimizer,
-    init_lr=0.001, decay_epoch=5, n_epoch=20)
+    init_lr=0.001, decay_epoch=5, n_epoch=30)
 
 # test
 test_accuracy = iter_utils.test(best_model, test_loader)
