@@ -42,13 +42,13 @@ print('Number of testing samples: {}'.format(len(test_loader.dataset)))
 print( )
 
 ## make models
-model = lenet.Net(1, 4)
+model = vgg.Net('VGG16', 1, 5)
 
 ## train
 criterion = nn.CrossEntropyLoss()
-optimizer = optim.Adam(model.parameters(), weight_decay=0.001)
+optimizer = optim.Adam(model.parameters(), weight_decay=0.0001)
 best_model, loss_curve = iter_utils.train(model, train_loader, criterion, optimizer,
-    init_lr=0.001, decay_epoch=5, n_epoch=30)
+    init_lr=0.0001, decay_epoch=5, n_epoch=30)
 
 # test
 test_accuracy = iter_utils.test(best_model, test_loader)
