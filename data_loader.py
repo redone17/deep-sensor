@@ -50,20 +50,14 @@ def split_set(data, label, p=0.8):
     '''
     split data and label array into train and test partitions
     '''
-    train = {'data':None, 'label':None}
-    test = {'data':None, 'label':None}
     n_total = np.shape(data)[0]
     n_train = int(n_total*p)
     n_test = n_total - n_train
     idx = np.random.permutation(n_total)
     train_mask = idx[:n_train]
     test_mask = idx[n_total-n_test:]
-    train['data'] = data[train_mask]
-    train['label'] = label[train_mask]
-    test['data'] = data[test_mask]
-    test['label'] = label[test_mask]
-    trainset = arr_to_dataset(train['data'], train['label'])
-    testset = arr_to_dataset(test['data'], test['label'])
+    trainset = arr_to_dataset(data[train_mask], label[train_mask])
+    testset = arr_to_dataset(data[test_mask], label[test_mask])
     return trainset, testset
 
 def arr_to_dataset(data_arr, label_vec):
