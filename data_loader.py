@@ -90,7 +90,7 @@ def stft_arr(arr, output_size=(32,32)):
     (n, _, l) = arr.shape
     spectrogram = np.zeros((n, 1, output_size[0], output_size[1]))
     for idx in range(n):
-        f, t, S = sig.spectrogram(arr[idx,0,:], fs=10240, window=sig.hann(64), noverlap=0)
+        f, t, S = sig.spectrogram(arr[idx,0,:], fs=10240, nperseg=output_size[0]*2, noverlap=0)
         spectrogram[idx, 0] = np.absolute(S[:(output_size[0]), :(output_size[1])])
     return spectrogram
 

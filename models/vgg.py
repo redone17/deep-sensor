@@ -13,6 +13,7 @@ cfg = {
     'VGG13': [64, 64, 'M', 128, 128, 'M', 256, 256, 'M', 512, 512, 'M', 512, 512, 'M'],
     'VGG16': [64, 64, 'M', 128, 128, 'M', 256, 256, 256, 'M', 512, 512, 512, 'M', 512, 512, 512, 'M'],
     'VGG19': [64, 64, 'M', 128, 128, 'M', 256, 256, 256, 256, 'M', 512, 512, 512, 512, 'M', 512, 512, 512, 512, 'M'],
+    'cVGG19': [8, 8, 'M', 16, 16, 'M', 32, 32, 32, 32, 'M', 64, 64, 64, 64, 'M', 128, 128, 128, 128, 'M'],
 }
 
 class Net(nn.Module):
@@ -22,11 +23,10 @@ class Net(nn.Module):
         self.in_channels = in_channels
         self.use_feature = use_feature
         self.features = self._make_layers(cfg[vgg_name])
-        self.classifier = nn.Linear(512, n_class)
+        self.classifier = nn.Linear(128, n_class)
 
     def forward(self, x):
         features = self.features(x)
-        print(features.size())
         activations = self.classifier(features.view(features.size(0), -1))
         if self.use_feature:
             out = (activations, features)
@@ -45,11 +45,11 @@ class Net(nn.Module):
                            nn.BatchNorm2d(x),
                            nn.ReLU(inplace=True)]
                 in_channels = x
-        layers += [nn.AvgPool2d(kernel_size=1, stride=1)] # AvePool for bigger input sizes
+        layers += [nn.AvgPool2d(kernel_size=2, stride=1)] # AvePool for bigger input sizes
         return nn.Sequential(*layers)
 
 '''
-net = Net('VGG19',3,4)
+net = Net('cVGG19',3,4)
 x = torch.randn(10,3,32,32)
 print(net(Variable(x)).size())
 '''
