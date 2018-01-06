@@ -46,7 +46,7 @@ def load_label(label_file):
     '''
     return np.loadtxt(label_file, ndmin=1)
 
-def split_arr(data, label, p=0.8):
+def split_set(data, label, p=0.8):
     '''
     split data and label array into train and test partitions
     '''
@@ -62,7 +62,9 @@ def split_arr(data, label, p=0.8):
     train['label'] = label[train_mask]
     test['data'] = data[test_mask]
     test['label'] = label[test_mask]
-    return train, test
+    trainset = arr_to_dataset(train['data'], train['label'])
+    testset = arr_to_dataset(test['data'], test['label'])
+    return trainset, testset
 
 def arr_to_dataset(data_arr, label_vec):
     '''

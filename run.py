@@ -28,13 +28,9 @@ data_arr_03 = data_loader.load_data('data/pgb/SF03/vib_data_1.txt')
 specgram_01 = data_loader.stft_arr(data_arr_01) # add for stft-LeNet
 specgram_03 = data_loader.stft_arr(data_arr_03)
 label_vec = data_loader.load_label('data/pgb/SF01/label_vec.txt')
-train_dict_01, test_dict_01 = data_loader.split_arr(specgram_01, label_vec)
-train_dict_03, test_dict_03 = data_loader.split_arr(specgram_03, label_vec)
-trainset_01 = data_loader.arr_to_dataset(train_dict_01['data'], train_dict_01['label'])
-testset_01 = data_loader.arr_to_dataset(test_dict_01['data'], test_dict_01['label'])
-trainset_03 = data_loader.arr_to_dataset(train_dict_03['data'], train_dict_03['label'])
-testset_03 = data_loader.arr_to_dataset(test_dict_03['data'], test_dict_03['label'])
 
+trainset_01, testset_01 = data_loader.split_set(specgram_01, label_vec)
+trainset_03, testset_03 = data_loader.split_set(specgram_03, label_vec)
 train_loader = data_utils.DataLoader(dataset = trainset_01, batch_size = 200, shuffle = True, num_workers = 2)
 test_loader = data_utils.DataLoader(dataset = testset_03, batch_size = 200, shuffle = True, num_workers = 2)
 print('Number of training samples: {}'.format(len(train_loader.dataset)))
@@ -48,7 +44,7 @@ model = vgg.Net('VGG16', 1, 5)
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.Adam(model.parameters(), weight_decay=0.0001)
 best_model, loss_curve = iter_utils.train(model, train_loader, criterion, optimizer,
-    init_lr=0.0001, decay_epoch=5, n_epoch=30)
+    init_lr=0.0001, decay_epoch=5, n_epoch=3)
 
 # test
 test_accuracy = iter_utils.test(best_model, test_loader)
