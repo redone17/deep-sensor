@@ -7,7 +7,7 @@ import torch.nn as nn
 from torch.autograd import Variable
 
 cfg = {
-    'DCNN09': [4, 'M', 8, 'M', 16, 'M', 32, 'M', 64, 'M', 128, 'M'],
+    'DCNN08': [8, 'M', 16, 'M', 32, 'M', 64, 'M', 128, 'M'],
     'DCNN11': [8, 'M', 16, 'M', 32, 32, 'M', 64, 64, 'M', 128, 128, 'M'],
     'DCNN13': [8, 8, 'M', 16, 16, 'M', 32, 32, 'M', 64, 64, 'M', 128, 128, 'M'],
     'DCNN16': [8, 8, 'M', 16, 16, 'M', 32, 32, 32, 'M', 64, 64, 64, 'M', 128, 128, 128, 'M'],
@@ -43,7 +43,7 @@ class Net(nn.Module):
                            nn.BatchNorm1d(x),
                            nn.ReLU(inplace=True)]
                 in_channels = x
-        layers += [nn.AvgPool1d(kernel_size=32, stride=1)] # AvePool for bigger input sizes
+        layers += [nn.AvgPool1d(kernel_size=64, stride=1)] # AvePool for bigger input sizes
         return nn.Sequential(*layers)
 
 '''

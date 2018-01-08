@@ -70,6 +70,17 @@ def arr_to_dataset(data_arr, label_vec):
     dataset = data_utils.TensorDataset(data_ten, label_ten)
     return dataset
 
+def resample_arr(data_arr, num=2048, method='Fourier'):
+    '''
+    Resample input numpy array into legnthed at num
+    methods option: 'Fourier' and 'Poly'
+    '''
+    if(method=='Fourier'):
+        new_arr = sig.resample(data_arr, num, axis=2)
+    elif(method=='Poly'):
+        new_arr = sig.resample_poly(data_arr, num, data_arr.shape[2], axis=2) 
+    return new_arr
+
 def fft_arr(arr):
     '''
     Fourier transform for signals in a Numpy array
@@ -96,7 +107,7 @@ def stft_arr(arr, output_size=(32,32)):
 
 '''
 arr = np.random.rand(10, 1, 2048)
-spec = stft_arr(arr)
-print(spec.shape)
+arr = resample_arr(arr, 240, method='Poly')
+print(arr.shape)
 '''
 

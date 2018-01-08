@@ -22,8 +22,9 @@ from models import *
 
 ## load data
 data_arr_01 = data_loader.load_data('data/pgb/SF01/vib_data_1.txt')
-data_arr_03 = data_loader.load_data('data/pgb/SF03/vib_data_1.txt')
-# data_arr = data_arr[:,:,:240] # add for Ince's model
+# data_arr_03 = data_loader.load_data('data/pgb/SF03/vib_data_1.txt')
+# data_arr_01 = data_loader.resample_arr(data_arr_01, num=240) # add for Ince's model
+# data_arr_03 = data_loader.resample_arr(data_arr_03, num=240) # add for Ince's model
 # data_arr_01, _ = data_loader.fft_arr(data_arr_01) # add for fft wdcnn
 # data_arr_03, _ = data_loader.fft_arr(data_arr_03) # add for fft wdcnn
 # data_arr_01 = data_loader.stft_arr(data_arr_01) # add for stft-LeNet
@@ -31,19 +32,19 @@ data_arr_03 = data_loader.load_data('data/pgb/SF03/vib_data_1.txt')
 label_vec = data_loader.load_label('data/pgb/SF01/label_vec.txt')
 
 trainset_01, testset_01 = data_loader.split_set(data_arr_01, label_vec)
-trainset_03, testset_03 = data_loader.split_set(data_arr_03, label_vec)
+# trainset_03, testset_03 = data_loader.split_set(data_arr_03, label_vec)
 train_loader = data_utils.DataLoader(dataset = trainset_01, batch_size = 512, shuffle = True, num_workers = 2)
-test_loader = data_utils.DataLoader(dataset = testset_03, batch_size = 512, shuffle = True, num_workers = 2)
+test_loader = data_utils.DataLoader(dataset = testset_01, batch_size = 512, shuffle = True, num_workers = 2)
 print('Number of training samples: {}'.format(len(train_loader.dataset)))
 print('Number of testing samples: {}'.format(len(test_loader.dataset)))
 print( )
 
 ## make models
-model = dcnn.Net('DCNN09', 1, 5)
+model = dcnn.Net('DCNN11', 1, 5)
 
 ## train
 criterion = nn.CrossEntropyLoss()
-optimizer = optim.Adam(model.parameters(), weight_decay=0.000)
+optimizer = optim.Adam(model.parameters(), weight_decay=0.0001)
 best_model, loss_curve = iter_utils.train(model, train_loader, criterion, optimizer,
     init_lr=0.0001, decay_epoch=5, n_epoch=10)
 
