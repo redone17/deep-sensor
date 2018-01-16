@@ -2,7 +2,7 @@
 # python2
 
 '''
-mian .py for conv-rotor project
+mian .py for this project
 0. initialize
 1. get data;
 2. make models;
