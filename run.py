@@ -40,11 +40,11 @@ print('Number of testing samples: {}'.format(len(test_loader.dataset)))
 print( )
 
 ## make models
-model = dcnn.Net('DCNN11', 1, 5)
+model = dcnn.Net('DCNN13', 1, 5)
 
 ## train
 criterion = nn.CrossEntropyLoss()
-optimizer = optim.Adam(model.parameters(), weight_decay=0.0001)
+optimizer = optim.Adam(model.parameters(), weight_decay=0.001)
 best_model, loss_curve = iter_utils.train(model, train_loader, criterion, optimizer,
     init_lr=0.0001, decay_epoch=5, n_epoch=10)
 

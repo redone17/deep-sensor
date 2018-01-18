@@ -1,4 +1,7 @@
 '''
+mport torch
+import torch.nn as nn
+from torch.autograd import Variable
 DCNN for one-dimensional signals in Pytorch.
 '''
 
@@ -47,7 +50,7 @@ class Net(nn.Module):
         return nn.Sequential(*layers)
 
 '''
-net = Net('DCNN09',1,5)
+net = Net('DCNN08',1,5)
 x = torch.randn(10,1,2048)
 print(net(Variable(x)).size())
 '''
