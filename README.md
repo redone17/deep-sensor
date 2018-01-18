@@ -19,3 +19,4 @@ A [PyTorch](http://pytorch.org/) framework for sensory signals in machinery faul
 * [Ince's](https://github.com/redone17/deep-sensor/blob/master/models/ince.py) from paper: [Real-Time Motor Fault Detection by 1-D Convolutional Neural Networks](https://doi.org/10.1109/TIE.2016.2582729)
 * [LeNet5](https://github.com/redone17/deep-sensor/blob/master/models/lenet.py) for spectrogram of signals
 * [VGG](https://github.com/redone17/deep-sensor/blob/master/models/vgg.py) forked from https://github.com/kuangliu/pytorch-cifar/blob/master/models/vgg.py
+* [1DCNN](https://github.com/redone17/deep-sensor/blob/master/models/dcnn.py) -- one-dimensional version of VGG-Nets, less channels, with global average
