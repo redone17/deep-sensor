@@ -33,18 +33,18 @@ label_vec = data_loader.load_label('data/pgb/SF01/label_vec.txt')
 
 trainset_01, testset_01 = data_loader.split_set(data_arr_01, label_vec)
 # trainset_03, testset_03 = data_loader.split_set(data_arr_03, label_vec)
-train_loader = data_utils.DataLoader(dataset = trainset_01, batch_size = 512, shuffle = True, num_workers = 2)
+train_loader = data_utils.DataLoader(dataset = trainset_01, batch_size =512 , shuffle = True, num_workers = 2)
 test_loader = data_utils.DataLoader(dataset = testset_01, batch_size = 512, shuffle = True, num_workers = 2)
 print('Number of training samples: {}'.format(len(train_loader.dataset)))
 print('Number of testing samples: {}'.format(len(test_loader.dataset)))
 print( )
 
 ## make models
-model = dcnn.Net('DCNN13', 1, 5)
+model = dcnn.Net('DCNN08', 1, 5)
 
 ## train
 criterion = nn.CrossEntropyLoss()
-optimizer = optim.Adam(model.parameters(), weight_decay=0.001)
+optimizer = optim.Adam(model.parameters(), weight_decay=0.0001)
 best_model, loss_curve = iter_utils.train(model, train_loader, criterion, optimizer,
     init_lr=0.0001, decay_epoch=5, n_epoch=10)
 
