@@ -2,10 +2,12 @@
 # python2
 
 '''
-1. load data from txt files
-2. reshape and preprocess the data
-3. split train and test
-4. encapsule data as datasets 
+functions:
+- load data and label from txt files
+- split train and test sets
+- resample
+- fast fourier transfrom
+- short time fourier transform
 '''
 
 import time
