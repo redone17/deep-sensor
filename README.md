@@ -10,8 +10,9 @@ A [PyTorch](http://pytorch.org/) framework for sensory signals in machinery faul
 
 ## usage
 1. data: 
-    * text file for data: \# signal_samples x \# signal_length
-    * text file for label: \# signal_samples x 1
+    * .txt file for data: \# signal_samples x \# signal_length
+    * .txt file for label: \# signal_samples x 1
+    * An example of fake dataset with 100 samples and labels are in [toydata](./toydata). 
 2. ``` $ python run.py ```
 
 ## models
