@@ -45,10 +45,10 @@ def train(model, train_loader, criterion, optimizer, init_lr=0.001, decay_epoch=
                 if phase == 'train':
                     loss.backward()
                     optimizer.step()
-                running_loss += loss.data[0]
+                running_loss += loss.data
                 _, predicted = torch.max(outputs.data, 1)
-                running_corrects += torch.sum(predicted==targets.data)
-                loss_curve.append(loss.data[0])
+                running_corrects += torch.sum(predicted==targets.data).item()
+                loss_curve.append(loss.data)
 
             epoch_loss = running_loss / len(train_loader.dataset)
             epoch_accuracy = running_corrects / len(train_loader.dataset)
@@ -68,10 +68,10 @@ def test(model, test_loader):
     corrects = 0
     model = model.cpu()
     for batch_idx, (inputs, targets) in enumerate(test_loader):
-        inputs, targets = Variable(inputs, volatile=True), Variable(targets)
-        outputs = model(inputs)
-        _, predicted = torch.max(outputs.data, 1)
-        corrects += torch.sum(predicted==targets.data)
+        with torch.no_grad():
+            inputs, targets = Variable(inputs), Variable(targets)
+            outputs = model(inputs)
+            _, predicted = torch.max(outputs.data, 1)
+            corrects += torch.sum(predicted==targets.data).item()
     accuracy = corrects / len(test_loader.dataset)
     return accuracy
-
