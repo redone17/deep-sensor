@@ -32,6 +32,7 @@ year="2019",
 publisher="Springer International Publishing",
 pages="67--76",
 isbn="978-3-030-11220-2"
+doi="10.1007/978-3-030-11220-2_8"
 }
 ~~~~
 
